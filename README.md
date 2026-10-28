@@ -16,7 +16,8 @@
 
 ---
 
-## 🏆 Hackathon Challenge: Build What Matters — The AI-Powered Student Innovation Challenge
+## 🏆 Hackathon Challenge: PromptWar 2026 — Build What Matters: The AI-Powered Student Innovation Challenge
+*Organized by **Hack2skill** & **GeektoTech***
 
 MediLocker directly addresses the challenge criteria through a production-grade, full-stack architectural implementation:
 
