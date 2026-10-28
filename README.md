@@ -86,6 +86,20 @@ graph TD
 * Newly registered doctors start in a `pending` state and cannot request patient records until an administrator verifies their medical license number.
 * Every sensitive action (`consent_requested`, `consent_approved`, `consent_revoked`, `document_viewed`, `document_uploaded`) is recorded in an immutable `audit_logs` table visible to both the patient and system administrators.
 
+### 5. Accessibility & WCAG 2.1 Compliance
+* **Web Portal (Next.js):** Built with semantic HTML5 landmarks (`<main>`, `<header>`, `<nav>`, `<aside>`), explicit `<label htmlFor>` to `<input id>` associations, screen-reader utilities (`.sr-only`), keyboard skip-to-content links, high-contrast `:focus-visible` indicators, and full ARIA support (`aria-live`, `aria-busy`, `aria-current`).
+* **Mobile App (Flutter):** Interactive tiles, quick actions, and document cards are wrapped with Flutter `Semantics(...)` to ensure seamless navigation for visually impaired users and screen readers (TalkBack / VoiceOver). Color palettes comply with WCAG AAA contrast ratios.
+
+### 6. Automated Testing Suite & CI/CD
+* **End-to-End Test Automation:** Verified via GitHub Actions on every commit (`.github/workflows/ci.yml`).
+* **Flutter Test Suite (`test/`):** Unit and widget tests covering data models (`MedicalDocument`, `ConsentGrant`, `ConsentRequest`, `AiInsight`, `UserProfile`), theme design systems, and semantic widget rendering.
+* **Web Portal Test Suite (`web-portal/__tests__/`):** Automated test suites verifying authentication guards, doctor onboarding validation, signed URL generation security, zero-trust consent scopes, and WCAG accessibility standards.
+* **Run Tests:**
+  ```bash
+  flutter test                    # Run Flutter mobile tests
+  cd web-portal && npm test       # Run Web Portal tests
+  ```
+
 ---
 
 ## Database Schema

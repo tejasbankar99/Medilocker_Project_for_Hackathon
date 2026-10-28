@@ -53,5 +53,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Run Web Portal Unit & Accessibility Tests
+        run: npm test
+
       - name: Type Check & Verify
         run: npx tsc --noEmit

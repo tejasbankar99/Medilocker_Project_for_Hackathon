@@ -52,11 +52,14 @@ export default function Sidebar({ role, userName }: SidebarProps) {
       </div>
 
       {/* Nav items */}
-      <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <nav aria-label={`${role} portal navigation`} style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {nav.map(item => {
           const isActive = pathname === item.href || (item.href !== `/${role}` && pathname.startsWith(item.href))
           return (
-            <Link key={item.href} href={item.href} style={{
+            <Link key={item.href} href={item.href}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={item.label}
+              style={{
               display: 'flex', alignItems: 'center', gap: '10px',
               padding: '10px 12px', borderRadius: '10px', textDecoration: 'none',
               background: isActive ? 'rgba(0,201,167,0.1)' : 'transparent',
@@ -65,7 +68,7 @@ export default function Sidebar({ role, userName }: SidebarProps) {
               transition: 'all 0.15s',
               border: isActive ? '1px solid rgba(0,201,167,0.2)' : '1px solid transparent',
             }}>
-              <span style={{ fontSize: '16px' }}>{item.icon}</span>
+              <span aria-hidden="true" style={{ fontSize: '16px' }}>{item.icon}</span>
               {item.label}
             </Link>
           )
@@ -80,7 +83,7 @@ export default function Sidebar({ role, userName }: SidebarProps) {
             <div style={{ fontSize: '13px', color: 'var(--text)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{userName}</div>
           </div>
         )}
-        <button onClick={signOut} style={{
+        <button onClick={signOut} aria-label="Sign out of portal" style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '10px',
           padding: '10px 12px', borderRadius: '10px', border: '1px solid var(--border)',
           background: 'transparent', color: 'var(--muted)', fontSize: '14px', cursor: 'pointer',

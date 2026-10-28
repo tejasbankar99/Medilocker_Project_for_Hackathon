@@ -13,9 +13,12 @@ class DocumentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final catColor = AppTheme.categoryColor(document.category);
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
+    return Semantics(
+      button: true,
+      label: '${document.title}, category ${document.category}',
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
         decoration: BoxDecoration(
           color: AppTheme.card,
           borderRadius: BorderRadius.circular(16),
@@ -124,6 +127,7 @@ class DocumentCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 }
