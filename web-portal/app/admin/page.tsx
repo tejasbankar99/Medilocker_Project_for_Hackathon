@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import Sidebar from '@/components/Sidebar'
 
-interface Stats { patients: number; doctors: number; pending: number; consents: number; logs: number }
+interface Stats { patients: number; doctors: number; pending: number; logs: number }
 interface DoctorPending {
   id: string; user_id: string; full_name: string; email: string;
   specialty?: string; hospital?: string; approval_status?: string; created_at: string
@@ -18,7 +18,7 @@ export default function AdminDashboard() {
   const supabase = createClient()
   const [adminName, setAdminName] = useState('')
   const [adminId, setAdminId] = useState('')
-  const [stats, setStats] = useState<Stats>({ patients: 0, doctors: 0, pending: 0, consents: 0, logs: 0 })
+  const [stats, setStats] = useState<Stats>({ patients: 0, doctors: 0, pending: 0, logs: 0 })
   const [pendingDoctors, setPendingDoctors] = useState<DoctorPending[]>([])
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
@@ -29,11 +29,10 @@ export default function AdminDashboard() {
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   const loadData = useCallback(async (uid: string, silent = false) => {
-    const [patientsRes, doctorsRes, pendingRes, consentsRes, logsRes] = await Promise.all([
+    const [patientsRes, doctorsRes, pendingRes, logsRes] = await Promise.all([
       supabase.from('user_roles').select('*', { count: 'exact', head: true }).eq('role', 'patient'),
       supabase.from('user_roles').select('*', { count: 'exact', head: true }).eq('role', 'doctor'),
       supabase.from('doctor_profiles').select('*').eq('approval_status', 'pending').order('created_at', { ascending: false }),
-      supabase.from('consent_grants').select('*', { count: 'exact', head: true }).eq('is_revoked', false),
       supabase.from('audit_logs').select('*', { count: 'exact', head: true }),
     ])
 
@@ -52,7 +51,6 @@ export default function AdminDashboard() {
       patients: patientsRes.count || 0,
       doctors: doctorsRes.count || 0,
       pending: newPending.length,
-      consents: consentsRes.count || 0,
       logs: logsRes.count || 0,
     })
     setLastRefreshed(new Date())
@@ -198,7 +196,6 @@ export default function AdminDashboard() {
             { label: 'Total Patients', value: stats.patients, icon: '👤', color: 'var(--primary)' },
             { label: 'Active Doctors', value: stats.doctors, icon: '🏥', color: 'var(--secondary)' },
             { label: 'Pending Approvals', value: stats.pending, icon: '⏳', color: 'var(--warning)', alert: stats.pending > 0 },
-            { label: 'Active Consents', value: stats.consents, icon: '🔐', color: '#ce93d8' },
             { label: 'Audit Events', value: stats.logs, icon: '📜', color: '#81c784' },
           ].map(s => (
             <div key={s.label} className="stat-card" style={{ borderColor: s.alert ? 'rgba(255,183,77,0.5)' : 'var(--border)', position: 'relative', overflow: 'hidden' }}>
@@ -266,8 +263,6 @@ export default function AdminDashboard() {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
           {[
             { href: '/admin/doctors', icon: '🏥', label: 'Manage Doctors', color: 'var(--secondary)', desc: `${stats.pending} pending approval` },
-            { href: '/admin/users', icon: '👥', label: 'Manage Patients', color: 'var(--primary)', desc: `${stats.patients} registered` },
-            { href: '/admin/consents', icon: '🔐', label: 'View Consents', color: '#ce93d8', desc: `${stats.consents} active` },
             { href: '/admin/audit', icon: '📜', label: 'Audit Logs', color: '#81c784', desc: `${stats.logs} events` },
           ].map(nav => (
             <a key={nav.href} href={nav.href} style={{ textDecoration: 'none' }}>

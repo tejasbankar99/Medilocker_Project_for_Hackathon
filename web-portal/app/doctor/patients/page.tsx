@@ -9,7 +9,37 @@ interface Grant {
   id: string; patient_id: string; scope: string; scope_value?: string;
   purpose: string; expires_at: string; granted_at: string; is_revoked: boolean
 }
-interface Document { id: string; title: string; category: string; document_date?: string; doctor_name?: string; hospital_name?: string; file_url?: string; created_at: string }
+interface Document {
+  id: string; title: string; category: string; document_date?: string;
+  doctor_name?: string; hospital_name?: string; file_url?: string;
+  file_type?: string; created_at: string
+}
+
+// Generate a signed URL via the secure server-side API route
+async function getSignedUrl(
+  supabase: ReturnType<typeof createClient>,
+  fileUrl: string,
+  patientId: string
+): Promise<string | null> {
+  try {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return null
+
+    const res = await fetch('/api/signed-url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`,
+      },
+      body: JSON.stringify({ fileUrl, patientId }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.signedUrl ?? null
+  } catch {
+    return null
+  }
+}
 
 export default function PatientsPage() {
   const router = useRouter()
@@ -21,6 +51,7 @@ export default function PatientsPage() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [docsLoading, setDocsLoading] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [openingDocId, setOpeningDocId] = useState<string | null>(null)
 
   useEffect(() => {
     const init = async () => {
@@ -40,6 +71,21 @@ export default function PatientsPage() {
     }
     init()
   }, [])
+
+  const openDocument = async (doc: Document, patientId: string) => {
+    if (!doc.file_url) return
+    setOpeningDocId(doc.id)
+    try {
+      const url = await getSignedUrl(supabase, doc.file_url, patientId)
+      if (url) {
+        window.open(url, '_blank', 'noopener,noreferrer')
+      } else {
+        alert('Could not generate a secure link. Please try again.')
+      }
+    } finally {
+      setOpeningDocId(null)
+    }
+  }
 
   const viewRecords = async (grant: Grant) => {
     setSelectedGrant(grant)
@@ -122,7 +168,7 @@ export default function PatientsPage() {
                   ) : (
                     <div className="table-wrap">
                       <table>
-                        <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Doctor</th><th>Hospital</th></tr></thead>
+                        <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Doctor</th><th>Hospital</th><th>File</th></tr></thead>
                         <tbody>
                           {documents.map(doc => (
                             <tr key={doc.id}>
@@ -131,6 +177,33 @@ export default function PatientsPage() {
                               <td style={{ color: 'var(--muted)', fontSize: '13px' }}>{doc.document_date ? new Date(doc.document_date).toLocaleDateString() : '—'}</td>
                               <td style={{ color: 'var(--muted)', fontSize: '13px' }}>{doc.doctor_name || '—'}</td>
                               <td style={{ color: 'var(--muted)', fontSize: '13px' }}>{doc.hospital_name || '—'}</td>
+                              <td>
+                                {doc.file_url ? (
+                                  <button
+                                    onClick={() => openDocument(doc, selectedGrant.patient_id)}
+                                    disabled={openingDocId === doc.id}
+                                    style={{
+                                      background: 'rgba(0,201,167,0.12)',
+                                      color: 'var(--primary)',
+                                      border: '1px solid rgba(0,201,167,0.3)',
+                                      borderRadius: '8px',
+                                      padding: '5px 12px',
+                                      fontSize: '12px',
+                                      fontWeight: 600,
+                                      cursor: openingDocId === doc.id ? 'wait' : 'pointer',
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      gap: '5px',
+                                      opacity: openingDocId === doc.id ? 0.7 : 1,
+                                      transition: 'all 0.15s',
+                                    }}
+                                  >
+                                    {openingDocId === doc.id ? '⏳' : '📄'} {openingDocId === doc.id ? 'Opening...' : 'View'}
+                                  </button>
+                                ) : (
+                                  <span style={{ color: 'var(--muted)', fontSize: '12px' }}>No file</span>
+                                )}
+                              </td>
                             </tr>
                           ))}
                         </tbody>

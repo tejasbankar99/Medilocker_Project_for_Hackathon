@@ -20,8 +20,6 @@ const doctorNav: NavItem[] = [
 const adminNav: NavItem[] = [
   { href: '/admin', icon: '📊', label: 'Dashboard' },
   { href: '/admin/doctors', icon: '🏥', label: 'Doctors' },
-  { href: '/admin/users', icon: '👥', label: 'Patients' },
-  { href: '/admin/consents', icon: '🔐', label: 'Consents' },
   { href: '/admin/audit', icon: '📜', label: 'Audit Logs' },
 ]
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/medical_document.dart';
 import '../../providers/ai_insight_provider.dart';
 import '../../providers/document_provider.dart';
@@ -195,13 +197,59 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
     );
   }
 
-  void _openFile(BuildContext context) {
+  Future<void> _openFile(BuildContext context) async {
+    final docs = context.read<DocumentProvider>();
+
+    // Show loading indicator while generating signed URL
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('File: ${widget.document.fileUrl}'),
-        action: SnackBarAction(label: 'Copy', onPressed: () {}),
+      const SnackBar(
+        content: Row(
+          children: [
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation(Colors.white),
+              ),
+            ),
+            SizedBox(width: 12),
+            Text('Generating secure link...'),
+          ],
+        ),
+        duration: Duration(seconds: 10),
       ),
     );
+
+    final signedUrl = await docs.getSignedUrl(widget.document.fileUrl!);
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    if (signedUrl == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Could not generate a download link. Please try again.')),
+      );
+      return;
+    }
+
+    final uri = Uri.parse(signedUrl);
+    try {
+      // Try opening directly — skip canLaunchUrl (unreliable on Android 11+)
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Fallback: try with platform default mode
+      try {
+        await launchUrl(uri, mode: LaunchMode.platformDefault);
+      } catch (_) {
+        // Last resort: copy URL to clipboard
+        await Clipboard.setData(ClipboardData(text: signedUrl));
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Link copied to clipboard — paste in your browser to open.')),
+          );
+        }
+      }
+    }
   }
 
   void _confirmDelete(BuildContext context) {

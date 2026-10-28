@@ -1,4 +1,4 @@
-# MediLocker — Doctor & Hospital Admin Web Portal
+# MediLocker ï¿½ Doctor & Hospital Admin Web Portal
 
 The official Next.js web interface for verified physicians and hospital administrators within the **MediLocker** ecosystem.
 

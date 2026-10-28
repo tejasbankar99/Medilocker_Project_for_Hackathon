@@ -65,34 +65,44 @@ class _MainShellState extends State<MainShell> {
     final index = _locationToIndex(context);
     final pendingCount = context.watch<ConsentProvider>().pendingCount;
 
-    return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xFF122036),
-          border: Border(
-            top: BorderSide(color: const Color(0xFF263B56), width: 1),
+    return PopScope(
+      // Allow pop (app close) only when already on Home tab
+      canPop: index == 0,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && index != 0) {
+          // Not on Home — redirect there instead of closing
+          context.go('/home');
+        }
+      },
+      child: Scaffold(
+        body: widget.child,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFF122036),
+            border: Border(
+              top: BorderSide(color: Color(0xFF263B56), width: 1),
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _NavItem(icon: Icons.dashboard_rounded, label: 'Home', selected: index == 0, onTap: () => _onItemTapped(0, context)),
-                _NavItem(icon: Icons.folder_rounded, label: 'Records', selected: index == 1, onTap: () => _onItemTapped(1, context)),
-                _NavItem(icon: Icons.timeline_rounded, label: 'Timeline', selected: index == 2, onTap: () => _onItemTapped(2, context)),
-                // Consent tab with live badge
-                _NavItem(
-                  icon: Icons.health_and_safety_rounded,
-                  label: 'Access',
-                  selected: index == 3,
-                  onTap: () => _onItemTapped(3, context),
-                  badge: pendingCount > 0 ? pendingCount : null,
-                ),
-                _NavItem(icon: Icons.person_rounded, label: 'Profile', selected: index == 4, onTap: () => _onItemTapped(4, context)),
-              ],
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _NavItem(icon: Icons.dashboard_rounded, label: 'Home', selected: index == 0, onTap: () => _onItemTapped(0, context)),
+                  _NavItem(icon: Icons.folder_rounded, label: 'Records', selected: index == 1, onTap: () => _onItemTapped(1, context)),
+                  _NavItem(icon: Icons.timeline_rounded, label: 'Timeline', selected: index == 2, onTap: () => _onItemTapped(2, context)),
+                  // Consent tab with live badge
+                  _NavItem(
+                    icon: Icons.health_and_safety_rounded,
+                    label: 'Access',
+                    selected: index == 3,
+                    onTap: () => _onItemTapped(3, context),
+                    badge: pendingCount > 0 ? pendingCount : null,
+                  ),
+                  _NavItem(icon: Icons.person_rounded, label: 'Profile', selected: index == 4, onTap: () => _onItemTapped(4, context)),
+                ],
+              ),
             ),
           ),
         ),
