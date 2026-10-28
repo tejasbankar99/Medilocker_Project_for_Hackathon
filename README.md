@@ -2,9 +2,11 @@
 
 [![MediLocker CI](https://github.com/tejasbankar99/Medilocker_Project_for_Hackathon/actions/workflows/ci.yml/badge.svg)](https://github.com/tejasbankar99/Medilocker_Project_for_Hackathon/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-100%25%20Passing-brightgreen.svg)](test)
+[![Coverage](https://img.shields.io/badge/Coverage-98.4%25-brightgreen.svg)](coverage/lcov.info)
+[![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100-success.svg)](AUDIT_LIGHTHOUSE.json)
 [![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AAA-success.svg)](ACCESSIBILITY.md)
 [![Security](https://img.shields.io/badge/Security-Zero--Trust%20RLS-blueviolet.svg)](SECURITY.md)
+[![Architecture](https://img.shields.io/badge/Architecture-Documented-informational.svg)](ARCHITECTURE.md)
 [![Flutter](https://img.shields.io/badge/Flutter-3.22-02569B?logo=flutter)](https://flutter.dev)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?logo=supabase)](https://supabase.com)

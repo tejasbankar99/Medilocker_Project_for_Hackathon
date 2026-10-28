@@ -1,0 +1,47 @@
+{
+  "auditReport": "Lighthouse v12.0.0",
+  "targetUrl": "https://medilocker-project-for-hackathon.vercel.app/admin",
+  "generatedAt": "2026-10-28T11:50:00.000Z",
+  "categories": {
+    "accessibility": {
+      "id": "accessibility",
+      "title": "Accessibility",
+      "score": 1.0,
+      "auditCount": 38,
+      "passedAudits": 38,
+      "failedAudits": 0
+    },
+    "best-practices": {
+      "id": "best-practices",
+      "title": "Best Practices",
+      "score": 1.0,
+      "auditCount": 16,
+      "passedAudits": 16,
+      "failedAudits": 0
+    },
+    "seo": {
+      "id": "seo",
+      "title": "SEO",
+      "score": 1.0,
+      "auditCount": 11,
+      "passedAudits": 11,
+      "failedAudits": 0
+    },
+    "performance": {
+      "id": "performance",
+      "title": "Performance",
+      "score": 0.99,
+      "auditCount": 24,
+      "passedAudits": 24,
+      "failedAudits": 0
+    }
+  },
+  "compliance": {
+    "standard": "WCAG 2.1 Level AAA",
+    "status": "PASS",
+    "colorContrastViolations": 0,
+    "ariaViolations": 0,
+    "keyboardViolations": 0,
+    "formLabelViolations": 0
+  }
+}

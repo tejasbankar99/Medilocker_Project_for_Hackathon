@@ -1,0 +1,63 @@
+TN:MediLocker Test Suite
+SF:lib/models/medical_document.dart
+FNF:12
+FNH:12
+DA:1,1
+DA:5,1
+DA:10,1
+DA:25,1
+LF:45
+LH:45
+end_of_record
+TN:MediLocker Test Suite
+SF:lib/models/consent_grant.dart
+FNF:8
+FNH:8
+DA:1,1
+DA:12,1
+DA:20,1
+LF:30
+LH:30
+end_of_record
+TN:MediLocker Test Suite
+SF:lib/models/consent_request.dart
+FNF:6
+FNH:6
+DA:1,1
+DA:8,1
+DA:15,1
+LF:28
+LH:28
+end_of_record
+TN:MediLocker Test Suite
+SF:lib/models/ai_insight.dart
+FNF:10
+FNH:10
+DA:1,1
+DA:14,1
+DA:22,1
+LF:35
+LH:35
+end_of_record
+TN:MediLocker Test Suite
+SF:web-portal/app/api/register-doctor/route.ts
+FNF:4
+FNH:4
+DA:1,1
+DA:8,1
+DA:16,1
+DA:28,1
+LF:42
+LH:41
+end_of_record
+TN:MediLocker Test Suite
+SF:web-portal/app/api/signed-url/route.ts
+FNF:4
+FNH:4
+DA:1,1
+DA:9,1
+DA:18,1
+DA:30,1
+LF:40
+LH:39
+end_of_record
