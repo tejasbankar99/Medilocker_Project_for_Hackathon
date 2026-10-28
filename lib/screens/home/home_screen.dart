@@ -108,15 +108,6 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _QuickAction(
-                            icon: Icons.qr_code_rounded,
-                            label: 'Share\nvia QR',
-                            color: AppTheme.secondary,
-                            onTap: () => context.go('/qr'),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _QuickAction(
                             icon: Icons.folder_open_rounded,
                             label: 'All\nRecords',
                             color: const Color(0xFFCE93D8),

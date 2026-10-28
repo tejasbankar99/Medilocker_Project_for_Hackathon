@@ -47,6 +47,16 @@ class _DocumentDetailScreenState extends State<DocumentDetailScreen> {
             expandedHeight: 200,
             pinned: true,
             backgroundColor: AppTheme.surface,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+              onPressed: () {
+                if (context.canPop()) {
+                  context.pop();
+                } else {
+                  context.go('/documents');
+                }
+              },
+            ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(

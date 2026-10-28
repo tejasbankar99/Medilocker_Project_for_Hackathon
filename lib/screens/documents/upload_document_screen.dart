@@ -110,7 +110,19 @@ class _UploadDocumentScreenState extends State<UploadDocumentScreen> {
     final isUploading = context.watch<DocumentProvider>().isUploading;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Upload Record')),
+      appBar: AppBar(
+        title: const Text('Upload Record'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/documents');
+            }
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Form(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,6 +16,8 @@ class MainShell extends StatefulWidget {
 }
 
 class _MainShellState extends State<MainShell> {
+  DateTime? _lastBackPressTime;
+
   @override
   void initState() {
     super.initState();
@@ -63,15 +66,36 @@ class _MainShellState extends State<MainShell> {
   @override
   Widget build(BuildContext context) {
     final index = _locationToIndex(context);
+    final location = GoRouterState.of(context).matchedLocation;
+    final isHome = location == '/home';
     final pendingCount = context.watch<ConsentProvider>().pendingCount;
 
     return PopScope(
-      // Allow pop (app close) only when already on Home tab
-      canPop: index == 0,
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && index != 0) {
-          // Not on Home — redirect there instead of closing
+        if (didPop) return;
+
+        // Redirect to Home first if anywhere else in the app
+        if (!isHome) {
           context.go('/home');
+          return;
+        }
+
+        // On Home: require a second back press within 2 seconds to exit app
+        final now = DateTime.now();
+        if (_lastBackPressTime == null ||
+            now.difference(_lastBackPressTime!) > const Duration(seconds: 2)) {
+          _lastBackPressTime = now;
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Press back again to exit'),
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        } else {
+          SystemNavigator.pop();
         }
       },
       child: Scaffold(

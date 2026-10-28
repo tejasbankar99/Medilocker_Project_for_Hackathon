@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../models/audit_log_entry.dart';
@@ -52,6 +53,16 @@ class _AuditLogScreenState extends State<AuditLogScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Access History'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/profile');
+            }
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
