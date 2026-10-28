@@ -1,5 +1,11 @@
 # MediLocker
 
+[![MediLocker CI](https://github.com/tejasbankar99/Medilocker_Project_for_Hackathon/actions/workflows/ci.yml/badge.svg)](https://github.com/tejasbankar99/Medilocker_Project_for_Hackathon/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Flutter](https://img.shields.io/badge/Flutter-3.22-02569B?logo=flutter)](https://flutter.dev)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
+[![Supabase](https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3ECF8E?logo=supabase)](https://supabase.com)
+
 > **Your Medical History, Anytime, Anywhere.**  
 > An end-to-end, patient-centric Electronic Health Records (EHR) management and secure exchange platform built with **Flutter**, **Next.js**, and **Supabase**.
 
@@ -142,8 +148,8 @@ medilocker/
 
 ### 2. Patient Mobile App (Flutter)
 ```bash
-git clone https://github.com/tejasbankar99/Medilocker.git
-cd Medilocker
+git clone https://github.com/tejasbankar99/Medilocker_Project_for_Hackathon.git
+cd Medilocker_Project_for_Hackathon
 cp lib/config/supabase_config.example.dart lib/config/supabase_config.dart
 # Add your Supabase URL and Anon Key in lib/config/supabase_config.dart
 flutter pub get
