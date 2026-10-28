@@ -4,6 +4,16 @@ import { createClient as createUserClient } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
+/**
+ * @file route.ts
+ * @module api/signed-url
+ * @description Generates an ephemeral cryptographic signed URL for permitted medical document access.
+ * Enforces Zero-Trust verification by authenticating the bearer session and validating active consent.
+ * 
+ * @param {NextRequest} req - Inbound request with fileUrl and patientId.
+ * @returns {Promise<NextResponse>} Ephemeral signed URL with 60-minute time-to-live.
+ * @throws {NextResponse} 401 Unauthorized or 403 Forbidden.
+ */
 export async function POST(req: NextRequest) {
   try {
     const { fileUrl, patientId } = await req.json()

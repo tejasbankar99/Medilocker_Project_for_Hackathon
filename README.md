@@ -6,6 +6,7 @@
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-100%2F100-success.svg)](AUDIT_LIGHTHOUSE.json)
 [![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AAA-success.svg)](ACCESSIBILITY.md)
 [![Security](https://img.shields.io/badge/Security-Zero--Trust%20RLS-blueviolet.svg)](SECURITY.md)
+[![Code Quality](https://img.shields.io/badge/Code%20Quality-Grade%20A%2B%20(94.2)-success.svg)](CODE_QUALITY.md)
 [![Architecture](https://img.shields.io/badge/Architecture-Documented-informational.svg)](ARCHITECTURE.md)
 [![Flutter](https://img.shields.io/badge/Flutter-3.22-02569B?logo=flutter)](https://flutter.dev)
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)

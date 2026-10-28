@@ -3,6 +3,17 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
+/**
+ * @file route.ts
+ * @module api/register-doctor
+ * @description Secure administrative handler for physician registration onboarding.
+ * Creates an unprivileged user entity in Supabase Auth and inserts an unapproved,
+ * pending verification record into `doctor_profiles`.
+ * 
+ * @param {NextRequest} req - Inbound HTTP Request containing JSON payload.
+ * @returns {Promise<NextResponse>} JSON response indicating status and user identification.
+ * @throws {NextResponse} 400 Bad Request on validation failure or 500 Internal Error.
+ */
 export async function POST(req: NextRequest) {
   try {
     const { fullName, email, password, specialty, hospital, license, phone } = await req.json()
